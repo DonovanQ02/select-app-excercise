@@ -36,15 +36,22 @@ function App() {
     return domainA.localeCompare(domainB);
   }))
 
-  const UbicacionInsertar = (name:string) => {
-    for(let i =0; i < apps.length; i++){
-      let ordenamiento = apps[i].name.localeCompare(name)
-      if (ordenamiento === 0 || ordenamiento === 1){
-          return i
-      } 
+  const UbicacionInsertar = (name: string) => {
+  for (let i = 0; i < apps.length; i++) {
+    const app = apps[i];
+
+    if (app.domains.length > 0) {
+      return i;
     }
-    return apps.length
+
+    const ordenamiento = app.name.localeCompare(name);
+    if (ordenamiento >= 0) {
+      return i;
+    }
   }
+
+  return apps.length;
+};
 
   const ManejarAgregadoApp = (name:string) => {
     let ubicacion = UbicacionInsertar(name);
@@ -55,7 +62,7 @@ function App() {
     };
 
     let appsConValorAgregado = [...apps]
-    appsConValorAgregado.splice(ubicacion-1, 0, newApp)
+    appsConValorAgregado.splice(ubicacion, 0, newApp)
     setApps(appsConValorAgregado)
   };
 
